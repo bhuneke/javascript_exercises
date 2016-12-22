@@ -4,7 +4,8 @@
 //eg 'bats' ->  'batss'
 
 function firstFunction(string) {
-  //your code here
+  var pluralString = string + 's';
+  return pluralString;
 }
 
 
