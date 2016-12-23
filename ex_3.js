@@ -14,7 +14,10 @@
 }*/
 
 function Sloth(name, favoriteTree) {
-  //your code here!
+  this.name = name;
+  this.favoriteTree = favoriteTree;
+  this.feedings = [];
+  this.totalFed = 0;
 };
 
 //Our sloth needs a function to feed it. We want to track the size of the feedings throughout the week so we're going to keep them in an array. We'll simulate the amount fed with a random number from 0-5. Write a function 'feed' that adds a feeding to the feedings array.
@@ -35,7 +38,8 @@ violet.feed() -> {
 */
 
 Sloth.prototype.feed = function() {
-  //your code here!
+  var feeding = Math.floor(Math.random() * 5);
+  this.feedings.push(feeding);
 };
 
 //It also needs a function to calculate how much it's been fed. Write a function 'calculateTotalFed'that adds up all of the numbers in the feedings array and sets the result to the property 'totalFed'.
@@ -48,8 +52,13 @@ Sloth.prototype.feed = function() {
 }*/
 
 Sloth.prototype.calculateTotalFed = function() {
-  //your code here!
+  var total = 0;
+  this.feedings.forEach(function(feed){
+    total += feed;
+  });
+  this.totalFed = total;
 };
+
 
 //Now write a constructor for the ranch. It needs a property 'grove' which is an array where we keep all of our sloth instances.
 
@@ -58,7 +67,7 @@ grove: []
 }*/
 
 function SlothRanch() {
-  //your code here!
+  this.grove = [];
 }
 
 //Our ranch needs a function that creates a new sloth and adds it to the grove. You'll need to use your sloth constructor!
@@ -70,7 +79,8 @@ function SlothRanch() {
 } */
 
 SlothRanch.prototype.makeBabySloth = function(name, favoriteTree) {
-  //your code here!
+  var babySloth = new Sloth(name, favoriteTree);
+  this.grove.push(babySloth);
 };
 
 //We also need to be able to feed them. Add a function to the prototype that feeds all the sloths in the grove
@@ -83,7 +93,9 @@ SlothRanch.prototype.makeBabySloth = function(name, favoriteTree) {
 }*/
 
 SlothRanch.prototype.feedSloths = function() {
-  //your code here!
+  this.grove.forEach(function(sloth){
+    sloth.feed();
+  });
 };
 
 //We need to be able to track down which sloths are in which tree. To do that we want to write a function that takes in a string of a type of tree and then returns an array of the names of ALL of the sloths that have that tree as their favoriteTree
@@ -92,7 +104,13 @@ SlothRanch.prototype.feedSloths = function() {
 //eg: ranchoSlotho.findSloths('mangrove') -> ['Violet']
 
 SlothRanch.prototype.findSloths = function(tree) {
-  //your code here!
+  var slothNames = [];
+  this.grove.forEach(function(sloth) {
+    if (sloth.favoriteTree === tree){
+      slothNames.push(sloth.name);
+    }
+  });
+  return slothNames;
 };
 
 //Finally we want to get the total fed per day for all of our sloths. For our purposes a day is one index in the feedings array. So we want the total of each index across all feedings arrays for all of our sloths as an array.
@@ -108,8 +126,47 @@ then:
 
 ranchoSlotho.fedPerDay() -> [3, 11, 10]*/
 
-SlothRanch.prototype.fedPerDay = function() {
+// SlothRanch.prototype.fedPerDay = function() {
+//   var totalAllDays = [];
+//   var feedingsArray = [];
+//   this.grove.forEach(function(sloth) {
+//     feedingsArray.push(sloth.feedings);
+//   });
+//   feedingsArray.forEach(function(slothFeedings){
+//     sum = 0;
+//     for (var i = 0; i < slothFeedings.length; i++) {
+//       sum += slothFeedings[i];
+//       totalAllDays.push(sum);
+//     }
+//   });
+//   return totalAllDays;
+// };
+
+
   //your code here!
+
+SlothRanch.prototype.fedPerDay = function() {
+  var totalAllDays = [];
+  var feedingsArray = [];
+  var dayFeeding = [];
+  var sum = 0;
+  this.grove.forEach(function(sloth){
+    feedingsArray.push(sloth.feedings);
+  });
+  feedingsArray.forEach(function(allFeed){
+    allFeed.forEach(function(singleFeed, j){
+      if (!dayFeeding[j]) {
+        dayFeeding[j] = [];
+      }
+      dayFeeding[j].push(singleFeed);
+    });
+  });
+
+  dayFeeding.forEach(function(dayTotal){
+    sum += parseInt(dayTotal);
+    totalAllDays.push(sum);
+  });
+  return totalAllDays;
 };
 
 exports.Sloth = Sloth;
