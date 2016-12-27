@@ -30,7 +30,11 @@ function reverseString(string) {
     reversed += string[i];
   }
   return reversed;
+  //below is a one line solution
+  //return string.split().reverse().join('');
 };
+
+
 
 //Write a function that capitalizes the first letter of every word
 //eg: 'no way that rules' -> 'No Way That Rules'
@@ -56,7 +60,12 @@ function capitalizeEach(string) {
   return newSentence.join(' ');
 }
 
+// return string.split(' ').map(function(word) {
+  //word = word.replace(word[0], word[0].toUpperCase());
+  //return word;
+//}).join(' ');
 
+//return string.split(' ').map(w => w.replace(w[0], w[0].toUpperCase())).join(' ');
 
 exports.capHalf = capHalf;
 exports.mainInitial = mainInitial;

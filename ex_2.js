@@ -25,6 +25,8 @@ function hasItem(array, match) {
     return false;
   }
 };
+//return array.includes(match);
+//return array.indexOf(match) !== -1;
 
 //Write a function that tells you the highest value in a given array
 //eg [2, 5, 9] -> 9

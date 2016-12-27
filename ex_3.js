@@ -149,7 +149,6 @@ SlothRanch.prototype.fedPerDay = function() {
   var totalAllDays = [];
   var feedingsArray = [];
   var dayFeeding = [];
-  var sum = 0;
   this.grove.forEach(function(sloth){
     feedingsArray.push(sloth.feedings);
   });
@@ -161,11 +160,13 @@ SlothRanch.prototype.fedPerDay = function() {
       dayFeeding[j].push(singleFeed);
     });
   });
-
-  dayFeeding.forEach(function(dayTotal){
-    sum += parseInt(dayTotal);
+  for (var x = 0; x < dayFeeding.length; x++) {
+    var sum = 0;
+    for (var y = 0; y < dayFeeding[x].length; y++){
+      sum += parseInt(dayFeeding[x][y]);
+    }
     totalAllDays.push(sum);
-  });
+  }
   return totalAllDays;
 };
 
